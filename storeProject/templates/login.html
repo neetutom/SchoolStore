@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="col-sm-6 col-sm-4">
+        {% for msg in messages %}
+        <p style="text-align:center; font-size:14px; color:red;"><b>{{msg}}</b></p>
+        {% endfor %}
+        <div class="login_form">
+            <h2 class="text-center">LOGIN</h2>
+            <div class="form_wrapper">
+                <p> If you have an account with us, please log in.</p>
+                <form id="loginForm" method="post">
+                    {% csrf_token %}
+                    <div class="form-group form-input">
+                        <input type="text" class="form-control" name="username" placeholder="Enter Username" required="required">
+                    </div>
+                    <div class="form-group form-input">
+                        <input type="password" class="form-control" name="password" placeholder="Enter Password" required="required">
+                    </div>
+                    <div class="form-input">
+                        <button type="submit" class="submit" style="border-radius:30px;">Login</button>
+                    </div>
+                </form>
+                <h4 style="text-align:center">OR</h4>
+
+                    <p style=" font-size:16px;text-align:center; color:black;">Don't have an account yet? <a style="font-size:16px;" href="{% url 'register:register' %}">Register</a></p>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

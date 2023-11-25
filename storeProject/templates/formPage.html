@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+<div class="container-fluid row" style="margin-bottom:100px;">
+    <div class="col-sm-4 " style="display:inline;">
+        {% for msg in messages %}
+        <p style="text-align:center; font-size:14px; color:red;"><b>{{msg}}</b></p>
+        {% endfor %}
+        <h6 style="padding-top:50px;">Kindly place you order here</h6>
+        <button onclick="showform()" class="form-btn">Click Here</button>
+    </div>
+
+    <div class="col-sm-6 center" id="form1" style="display:none">
+      <div>
+          <div class="orderform-title">
+              Online Order Form
+          </div>
+          <div class="order-form">
+              <form class="form-order form-group" id="form-order" method="post" data-courses-url="{% url 'register:ajax_load_courses' %}">
+                  {% csrf_token %}
+                  <div class="form-row">
+                      <div class="form-group col-md-12">
+                        {% render_field form.name placeholder="Enter your Name" class="form-control" %}
+                      </div>
+                  </div>
+                  <div class="form-row">
+                      <div class="form-group col-md-4">
+                          {% render_field form.dob type="date" class="form-control" %}
+                      </div>
+                      <div class="form-group col-md-4">
+                          {% render_field form.age type="number" placeholder="Enter your Age" class="form-control" %}
+                      </div>
+                      <div class="form-group col-md-4">
+                          {% render_field form.gender placeholder="Enter your Age" class="form-select" %}
+                      </div>
+                  </div>
+                  <div class="form-row">
+                      <div class="form-group col-md-6">
+                          {% render_field form.phone_number type="text" class="form-control" placeholder="Enter Phone Number" %}
+                      </div>
+                      <div class="form-group col-md-6">
+                          {% render_field form.email type="email" placeholder="example@email.com" class="form-control" %}
+                      </div>
+                  </div>
+                  <div class="form-row">
+                      <div class="form-group col-md-12">
+                        {% render_field form.address placeholder="Enter your Address" type="text" class="form-control" %}
+                      </div>
+                  </div>
+                  <hr width="100%">
+                  <div class="form-row">
+                      <div class="form-group col-md-6">
+                          {% render_field form.department class="form-select" %}
+                      </div>
+                      <div class="form-group col-md-6">
+                          {% render_field form.course class="form-select" %}
+                      </div>
+                  </div>
+                  <hr width="100%">
+                  <p><u>Stationary Items</u></p>
+                  <div class="form-row">
+                      <div class="from-group col-9 col-md-4 col-sm-12 col-lg-4">
+                          {% render_field form.stationary type="checkbox" %}
+                      </div>
+                  </div>
+                  <div class="form-row">
+                      <div class="form-group col-md-12">
+                        <button type="submit" class="order-button">Submit</button>
+                      </div>
+                  </div>
+
+              </form>
+          </div>
+      </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+    function showform(){
+        document.getElementById('form1').style.display='block';
+    }
+
+    $("#id_department").change (function () {
+        const url = $("#form-order").attr("data-courses-url");  /* get the url of the `load_courses` view */
+        const departmentId = $(this).val();  // get the selected department ID from the HTML input
+        $.ajax({                       // initialize an AJAX request
+            url: url,                    // set the url of the request (= /register/ajax/load-courses/ )
+            data: {
+                'department_id': departmentId       // add the country id to the GET parameters
+            },
+            success: function (data) {   // `data` is the return of the `load_courses` view function
+                    let html_data = '<option value="">---------</option>';
+                    data.forEach(function (course) {
+                        html_data += `<option value="${course.id}">${course.course_name}</option>`
+                    });
+                    console.log(html_data);
+                    $("#id_course").html(html_data);
+            }
+        });
+
+    });
+</script>
+
+
+
+
+
+{% endblock %}

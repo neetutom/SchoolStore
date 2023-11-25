@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="">
+    {% for msg in messages %}
+    <p>{{msg}}</p>
+    {% endfor %}
+
+    <a class="btn center"
+       style="cursor:pointer;
+            height:46px;
+            width:194px;
+            padding: 0px 15px;
+            border-radius:23px;
+            float:none;
+            background-color: #f0390f;
+            text-align: center;
+            font-size:14px;
+            vertical-align:center;
+            line-height: 40px;
+            color:white;"
+       href="{% url 'storeApp:Home' %}">Go to Home Page</a>
+</div>
+
+{% endblock %}

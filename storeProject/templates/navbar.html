@@ -1,0 +1,42 @@
+<nav class="navigation navbar navbar-expand-xl navbar-dark">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsingNavBar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse" id="collapsingNavBar">
+            <ul class="navbar-nav mr-auto navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'storeApp:Home' %}">Home</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Departments
+                  </a>
+                  <ul class="dropdown-menu">
+                    {% for i in links %}
+                    <li><a class="dropdown-item" href="{{i.get_url}}">{{i.dept_name}}</a></li>
+                    {% endfor %}
+                  </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register:register' %}">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register:login' %}">Login</a>
+                </li>
+                {% if user.is_authenticated %}
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" href ="{% url 'register:createorder' %}">Order Form</a>-->
+<!--                </li>-->
+                <li class="nav-item">
+                    <p class="nav-text"><i class="fa fa-solid fa-user"></i>&nbsp&nbsp{{user.username}}</p>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register:logout' %}">Logout</a>
+                </li >
+
+            </ul>
+        </div>
+    </div>
+</nav>

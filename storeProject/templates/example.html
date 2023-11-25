@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+        <div class="container">
+            <div class="row">
+                <select id="field1" name="field1" class="form-control">
+                    <option hidden selected value="" id="nullfield1">Select field 1</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                </select>
+                <select id="field2" name="field2" class="form-control">
+                    <option hidden selected value="" id="nullfield2">Select field 2</option>
+                    <option value="1" parent="A">1</option>
+                    <option value="2" parent="A">2</option>
+                    <option value="3" parent="B">3</option>
+                    <option value="4" parent="B">4</option>
+                    <option value="5" parent="C">5</option>
+                    <option value="6" parent="C">6</option>
+                </select>
+            </div>
+        </div>
+    </body>
+</html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    var document = window.document;
+    $(document).ready(function(){
+        var $field1var=$("#field1");
+        var $field2var=$("#field2");
+        var $field2options=$field2var.find('option');
+        $field2var.html($field2options.filter('[value=""]'));
+        $field1var.on('change',function(){
+            $field2var.html($field2options.filter('[parent="'+this.value+'"],[value=""]'));
+            $('#field2 option[value=""]').prop('selected', true);
+        });
+    });
+</script>
